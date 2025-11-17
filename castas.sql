@@ -1,0 +1,50 @@
+CREATE TABLE CASTS (
+    ID INT PRIMARY KEY,
+    NAME VARCHAR(100),
+    ROLE VARCHAR(50)
+);
+
+CREATE TABLE TITLE (
+    ID INT PRIMARY KEY,
+    Title VARCHAR(100),
+    Language VARCHAR(50),
+    RELEASE_DATE DATE,
+    result VARCHAR(50)
+);
+
+CREATE TABLE TITLE_CAST (
+    ID INT PRIMARY KEY,
+    TITLE_ID INT,
+    CAST_ID INT,
+    Payment BIGINT,
+    FOREIGN KEY (TITLE_ID) REFERENCES TITLE(ID),
+    FOREIGN KEY (CAST_ID) REFERENCES CASTS(ID)
+);
+
+INSERT INTO CASTS (ID, NAME, ROLE)
+VALUES 
+(1, 'Abhishek Bachchan', 'Actor'),
+(2, 'James', 'Director'),
+(3, 'Rani Mukherjee', 'Actor');
+
+INSERT INTO TITLE (ID, Title, Language, RELEASE_DATE, result)
+VALUES 
+(105, 'The Great Escape', 'English', '2014-04-10', 'HIT'),
+(109, 'Queen', 'Hindi', '2015-08-30', 'BLOCKBUSTER'),
+(111, 'Guru', 'Hindi', '2016-11-20', 'HIT');
+
+INSERT INTO TITLE_CAST (ID, TITLE_ID, CAST_ID, Payment)
+VALUES 
+(1, 111, 1, 10000000),
+(2, 105, 2, 500000000),
+(3, 111, 3, 10000000),
+(4, 109, 3, 5000000);
+
+SELECT 
+    T.Title,
+    C.NAME AS Cast_Name,
+    C.ROLE,
+    TC.Payment
+FROM TITLE_CAST TC
+JOIN TITLE T ON TC.TITLE_ID = T.ID
+JOIN CASTS C ON TC.CAST_ID = C.ID;
